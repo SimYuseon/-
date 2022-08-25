@@ -8,10 +8,25 @@ import Detail from "./components/Detail";
 import NotFound from "./components/NotFound";
 import { createBucket } from "./redux/modules/bucket";
 import Progress from "./progress";
+import { db } from "./firebase";
+import {
+  collection,
+  getDoc,
+  getDocs,
+  addDoc,
+  updateDoc,
+  doc,
+  deleteDoc,
+} from "firebase/firestore";
 
 const App = () => {
   const text = useRef(null);
   const dispatch = useDispatch();
+
+  React.useEffect(async () => {
+    console.log(db);
+    addDoc(collection(db, "buckets"), { text: "new", completed: false });
+  }, []);
 
   const addBucketList = () => {
     dispatch(createBucket({ text: text.current.value, completed: false }));
